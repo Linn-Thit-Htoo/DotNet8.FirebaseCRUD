@@ -49,5 +49,11 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             await _firebaseClient.Child(_resourceName).Child(id).PutAsync(blog);
             Console.WriteLine("Updating Successful.");
         }
+
+        public async Task DeleteBlogAsync(string id)
+        {
+            await _firebaseClient.Child(_resourceName).Child(id).DeleteAsync();
+            Console.WriteLine("Deleting Successful.");
+        }
     }
 }

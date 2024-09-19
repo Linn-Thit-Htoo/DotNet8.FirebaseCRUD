@@ -14,18 +14,21 @@ public class Program
         };
 
         //await blogService.AddBlogAsync(blog);
-
-        await blogService.UpdateBlogAsync("-O78Tno7NMVTn0OPt0Zr", blog);
+        //await blogService.UpdateBlogAsync("-O78Tno7NMVTn0OPt0Zr", blog);
+        //await blogService.DeleteBlogAsync("-O78Tno7NMVTn0OPt0Zr");
 
         var blogs = await blogService.GetBlogsAsync();
-        foreach (var item in blogs)
+        if (blogs is not null && blogs.Count > 0)
         {
-            Console.WriteLine($"Key: {item.Key}");
-            Console.WriteLine($"Blog Id: {item.Value.BlogId}");
-            Console.WriteLine($"Blog Title: {item.Value.BlogTitle}");
-            Console.WriteLine($"Blog Author: {item.Value.BlogAuthor}");
-            Console.WriteLine($"Blog Content: {item.Value.BlogContent}");
-            Console.WriteLine("------------------------------------");
+            foreach (var item in blogs)
+            {
+                Console.WriteLine($"Key: {item.Key}");
+                Console.WriteLine($"Blog Id: {item.Value.BlogId}");
+                Console.WriteLine($"Blog Title: {item.Value.BlogTitle}");
+                Console.WriteLine($"Blog Author: {item.Value.BlogAuthor}");
+                Console.WriteLine($"Blog Content: {item.Value.BlogContent}");
+                Console.WriteLine("------------------------------------");
+            }
         }
     }
 }
