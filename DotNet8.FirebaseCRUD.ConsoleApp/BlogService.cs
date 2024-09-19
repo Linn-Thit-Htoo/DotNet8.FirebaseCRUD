@@ -26,6 +26,8 @@ public class BlogService
 
     #endregion
 
+    #region Add Blog Async
+
     public async Task AddBlogAsync(BlogModel blog)
     {
         try
@@ -39,6 +41,8 @@ public class BlogService
             throw new Exception(ex.Message);
         }
     }
+
+    #endregion
 
     public async Task UpdateBlogAsync(string id, BlogModel blog)
     {
