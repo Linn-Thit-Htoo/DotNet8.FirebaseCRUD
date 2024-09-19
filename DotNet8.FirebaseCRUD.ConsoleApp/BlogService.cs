@@ -12,6 +12,8 @@ public class BlogService
         _resourceName = "Blogs";
     }
 
+    #region Get Blogs Async
+
     public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
     {
         var blogs = await _firebaseClient.Child(_resourceName).OnceAsync<BlogModel>();
@@ -21,6 +23,8 @@ public class BlogService
 
         return blogList;
     }
+
+    #endregion
 
     public async Task AddBlogAsync(BlogModel blog)
     {
