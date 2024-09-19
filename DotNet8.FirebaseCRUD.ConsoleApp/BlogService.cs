@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,14 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
+        {
+            var blogs = await _firebaseClient.Child("Blogs").OnceAsync<BlogModel>();
+            var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
+
+            return blogList;
         }
     }
 }
