@@ -44,11 +44,15 @@ public class BlogService
 
     #endregion
 
+    #region Update Blog Async
+
     public async Task UpdateBlogAsync(string id, BlogModel blog)
     {
         await _firebaseClient.Child(_resourceName).Child(id).PutAsync(blog);
         Console.WriteLine("Updating Successful.");
     }
+
+    #endregion
 
     public async Task DeleteBlogAsync(string id)
     {
