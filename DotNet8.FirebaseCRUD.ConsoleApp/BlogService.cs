@@ -54,7 +54,7 @@ public class BlogService
 
     #endregion
 
-    #region DeleteBlogAsync
+    #region Delete Blog Async
 
     public async Task DeleteBlogAsync(string id)
     {
