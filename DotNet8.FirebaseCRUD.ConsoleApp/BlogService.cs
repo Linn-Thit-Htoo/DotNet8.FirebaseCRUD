@@ -54,9 +54,13 @@ public class BlogService
 
     #endregion
 
+    #region DeleteBlogAsync
+
     public async Task DeleteBlogAsync(string id)
     {
         await _firebaseClient.Child(_resourceName).Child(id).DeleteAsync();
         Console.WriteLine("Deleting Successful.");
     }
+
+    #endregion
 }
