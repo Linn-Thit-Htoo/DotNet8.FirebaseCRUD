@@ -19,6 +19,14 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             _firebaseClient = new(_firstBaseDbUrl);
         }
 
+        public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
+        {
+            var blogs = await _firebaseClient.Child("Blogs").OnceAsync<BlogModel>();
+            var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
+
+            return blogList;
+        }
+
         public async Task AddBlogAsync(BlogModel blog)
         {
             try
@@ -31,14 +39,6 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
-        {
-            var blogs = await _firebaseClient.Child("Blogs").OnceAsync<BlogModel>();
-            var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
-
-            return blogList;
         }
     }
 }
