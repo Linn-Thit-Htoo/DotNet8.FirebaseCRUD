@@ -1,4 +1,5 @@
 ﻿using Firebase.Database;
+using Firebase.Database.Query;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,12 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task UpdateBlogAsync(string id, BlogModel blog)
+        {
+            await _firebaseClient.Child(_resourceName).Child(id).PutAsync(blog);
+            Console.WriteLine("Updating Successful.");
         }
     }
 }

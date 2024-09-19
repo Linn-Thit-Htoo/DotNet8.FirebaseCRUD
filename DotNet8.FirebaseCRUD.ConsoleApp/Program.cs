@@ -7,19 +7,21 @@ public class Program
         BlogService blogService = new();
         var blog = new BlogModel()
         {
-            Id = Guid.NewGuid().ToString(),
-            BlogTitle = "Test Firebase Title",
-            BlogAuthor = "Test Firebase Author",
-            BlogContent = "Test Firebase Content"
+            BlogId = Guid.NewGuid().ToString(),
+            BlogTitle = "Test Firebase Title edited",
+            BlogAuthor = "Test Firebase Author edited",
+            BlogContent = "Test Firebase Content edited"
         };
 
         //await blogService.AddBlogAsync(blog);
+
+        await blogService.UpdateBlogAsync("-O78Tno7NMVTn0OPt0Zr", blog);
 
         var blogs = await blogService.GetBlogsAsync();
         foreach (var item in blogs)
         {
             Console.WriteLine($"Key: {item.Key}");
-            Console.WriteLine($"Id: {item.Value.Id}");
+            Console.WriteLine($"Blog Id: {item.Value.BlogId}");
             Console.WriteLine($"Blog Title: {item.Value.BlogTitle}");
             Console.WriteLine($"Blog Author: {item.Value.BlogAuthor}");
             Console.WriteLine($"Blog Content: {item.Value.BlogContent}");
