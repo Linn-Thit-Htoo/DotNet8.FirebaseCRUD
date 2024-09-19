@@ -1,8 +1,4 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using Newtonsoft.Json;
-
-namespace DotNet8.FirebaseCRUD.ConsoleApp
+﻿namespace DotNet8.FirebaseCRUD.ConsoleApp
 {
     public class BlogService
     {
