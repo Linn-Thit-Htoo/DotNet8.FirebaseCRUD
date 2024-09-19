@@ -1,49 +1,48 @@
-﻿namespace DotNet8.FirebaseCRUD.ConsoleApp
+﻿namespace DotNet8.FirebaseCRUD.ConsoleApp;
+
+public class BlogService
 {
-    public class BlogService
+    private readonly string _firstBaseDbUrl = "https://blogcrud-b23cc-default-rtdb.firebaseio.com/";
+    private readonly FirebaseClient _firebaseClient;
+    private readonly string _resourceName = string.Empty;
+
+    public BlogService()
     {
-        private readonly string _firstBaseDbUrl = "https://blogcrud-b23cc-default-rtdb.firebaseio.com/";
-        private readonly FirebaseClient _firebaseClient;
-        private readonly string _resourceName = string.Empty;
+        _firebaseClient = new(_firstBaseDbUrl);
+        _resourceName = "Blogs";
+    }
 
-        public BlogService()
+    public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
+    {
+        var blogs = await _firebaseClient.Child(_resourceName).OnceAsync<BlogModel>();
+        var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
+
+        return blogList;
+    }
+
+    public async Task AddBlogAsync(BlogModel blog)
+    {
+        try
         {
-            _firebaseClient = new(_firstBaseDbUrl);
-            _resourceName = "Blogs";
+            string json = JsonConvert.SerializeObject(blog);
+            await _firebaseClient.Child(_resourceName).PostAsync(json);
+            Console.WriteLine("Saving Successful.");
         }
-
-        public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
+        catch (Exception ex)
         {
-            var blogs = await _firebaseClient.Child(_resourceName).OnceAsync<BlogModel>();
-            var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
-
-            return blogList;
+            throw new Exception(ex.Message);
         }
+    }
 
-        public async Task AddBlogAsync(BlogModel blog)
-        {
-            try
-            {
-                string json = JsonConvert.SerializeObject(blog);
-                await _firebaseClient.Child(_resourceName).PostAsync(json);
-                Console.WriteLine("Saving Successful.");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+    public async Task UpdateBlogAsync(string id, BlogModel blog)
+    {
+        await _firebaseClient.Child(_resourceName).Child(id).PutAsync(blog);
+        Console.WriteLine("Updating Successful.");
+    }
 
-        public async Task UpdateBlogAsync(string id, BlogModel blog)
-        {
-            await _firebaseClient.Child(_resourceName).Child(id).PutAsync(blog);
-            Console.WriteLine("Updating Successful.");
-        }
-
-        public async Task DeleteBlogAsync(string id)
-        {
-            await _firebaseClient.Child(_resourceName).Child(id).DeleteAsync();
-            Console.WriteLine("Deleting Successful.");
-        }
+    public async Task DeleteBlogAsync(string id)
+    {
+        await _firebaseClient.Child(_resourceName).Child(id).DeleteAsync();
+        Console.WriteLine("Deleting Successful.");
     }
 }
