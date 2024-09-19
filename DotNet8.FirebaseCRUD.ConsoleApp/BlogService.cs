@@ -13,15 +13,17 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
     {
         private readonly string _firstBaseDbUrl = "https://blogcrud-b23cc-default-rtdb.firebaseio.com/";
         private readonly FirebaseClient _firebaseClient;
+        private readonly string _resourceName = string.Empty;
 
         public BlogService()
         {
             _firebaseClient = new(_firstBaseDbUrl);
+            _resourceName = "Blogs";
         }
 
         public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
         {
-            var blogs = await _firebaseClient.Child("Blogs").OnceAsync<BlogModel>();
+            var blogs = await _firebaseClient.Child(_resourceName).OnceAsync<BlogModel>();
             var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
 
             return blogList;
@@ -32,7 +34,7 @@ namespace DotNet8.FirebaseCRUD.ConsoleApp
             try
             {
                 string json = JsonConvert.SerializeObject(blog);
-                await _firebaseClient.Child("Blogs").PostAsync(json);
+                await _firebaseClient.Child(_resourceName).PostAsync(json);
                 Console.WriteLine("Saving Successful.");
             }
             catch (Exception ex)
