@@ -15,7 +15,9 @@ public class BlogService
     public async Task<List<KeyValuePair<string, BlogModel>>> GetBlogsAsync()
     {
         var blogs = await _firebaseClient.Child(_resourceName).OnceAsync<BlogModel>();
-        var blogList = blogs.Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object)).ToList();
+        var blogList = blogs
+            .Select(blog => new KeyValuePair<string, BlogModel>(blog.Key, blog.Object))
+            .ToList();
 
         return blogList;
     }
